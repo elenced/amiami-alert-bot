@@ -66,28 +66,27 @@ def check_page(page, url):
 last_status = load_statuses()
 
 with sync_playwright() as p:
-    browser =  p.chromium.launch(headless=True)
+    browser = p.chromium.launch(headless=True)
     page = browser.new_page()
 
-    while True:
-        for url in PRODUCTS:
-            try:
-                status = check_page(page, url)
-                old_status = last_status.get(url)
+    for url in PRODUCTS:
+        try:
+            status = check_page(page, url)
+            old_status = last_status.get(url)
 
-                print(url)
-                print("Old:", old_status)
-                print("New:", status)
+            print(url)
+            print("Old:", old_status)
+            print("New:", status)
 
-                if old_status == "closed" and status == "available":
-                    send_discord_alert(
-                        f"<@{DISCORD_USER_ID}> 🚨 **TEST: AmiAmi item is available!**\n{url}"
-                    )
+            if old_status == "closed" and status == "available":
+                send_discord_alert(
+                    f"<@{DISCORD_USER_ID}> 🚨 **AmiAmi preorder reopened!**\n{url}"
+                )
 
-                last_status[url] = status
-                save_statuses(last_status)
+            last_status[url] = status
+            save_statuses(last_status)
 
-            except Exception as e:
-                print("Error:", e)
+        except Exception as e:
+            print("Error:", e)
 
-        time.sleep(CHECK_EVERY_SECONDS)
+    browser.close()
