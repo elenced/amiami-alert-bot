@@ -66,7 +66,7 @@ def check_page(page, url):
 last_status = load_statuses()
 
 with sync_playwright() as p:
-    browser = p.chromium.launch(headless=False, slow_mo=500)
+    browser =  p.chromium.launch(headless=True)
     page = browser.new_page()
 
     while True:
