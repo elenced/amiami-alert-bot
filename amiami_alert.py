@@ -5,7 +5,7 @@ import requests
 from playwright.sync_api import sync_playwright
 
 PRODUCTS = [
-    "https://www.amiami.com/eng/detail/?scode=FIGURE-003419",
+    "https://www.amiami.com/eng/detail/?gcode=FIGURE-202951",
     "https://www.amiami.com/eng/detail/?gcode=FIGURE-197378",
     "https://www.amiami.com/eng/detail/?gcode=FIGURE-197768",
 ]
@@ -77,7 +77,7 @@ with sync_playwright() as p:
             print("Old:", old_status)
             print("New:", status)
 
-            if old_status == "closed" and status == "available":
+            if status == "available":
                 send_discord_alert(
                     f"<@{DISCORD_USER_ID}> 🚨 **AMIAMI PREORDER OPEN!**\n\n{url}"
                 )
