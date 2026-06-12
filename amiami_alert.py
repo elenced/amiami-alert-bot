@@ -10,7 +10,7 @@ PRODUCTS = [
     "https://www.amiami.com/eng/detail/?gcode=FIGURE-197768",
 ]
 
-DISCORD_WEBHOOK_URL = os.getenv("https://discordapp.com/api/webhooks/1515078069226836088/6NOV-lFe_iIpTmaqLcelta75dHIvZWb1vcsSyaL1jqLMGkow2-1v8liruECHCtCGmNZX")
+DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 DISCORD_USER_ID = "588054517078294617"
 
 CHECK_EVERY_SECONDS = 60
