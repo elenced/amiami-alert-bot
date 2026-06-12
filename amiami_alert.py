@@ -10,7 +10,7 @@ PRODUCTS = [
     "https://www.amiami.com/eng/detail/?gcode=FIGURE-197768",
 ]
 
-DISCORD_WEBHOOK_URL = "https://discordapp.com/api/webhooks/1515078069226836088/6NOV-lFe_iIpTmaqLcelta75dHIvZWb1vcsSyaL1jqLMGkow2-1v8liruECHCtCGmNZX"
+DISCORD_WEBHOOK_URL = os.getenv("https://discordapp.com/api/webhooks/1515078069226836088/6NOV-lFe_iIpTmaqLcelta75dHIvZWb1vcsSyaL1jqLMGkow2-1v8liruECHCtCGmNZX")
 DISCORD_USER_ID = "588054517078294617"
 
 CHECK_EVERY_SECONDS = 60
@@ -39,26 +39,25 @@ def check_page(page, url):
 
     text = page.inner_text("body")
 
-    if "Pre-orders Closed" in text:
-        return "closed"
+    CLOSED = [
+        "Pre-orders Closed",
+        "Order Closed",
+        "Sold Out",
+        "Unavailable"
+    ]
 
-    if "Order Closed" in text:
-        return "closed"
+    AVAILABLE = [
+        "Pre-order",
+        "Add to Cart"
+    ]
 
-    if "Sold Out" in text:
-        return "closed"
+    for word in CLOSED:
+        if word in text:
+            return "closed"
 
-    if "Unavailable" in text:
-        return "closed"
-
-    if "Pre-order" in text:
-        return "available"
-
-    if "Add to Cart" in text:
-        return "available"
-
-    if "Back-order" in text:
-        return "available"
+    for word in AVAILABLE:
+        if word in text:
+            return "available"
 
     return "unknown"
 
@@ -78,9 +77,9 @@ with sync_playwright() as p:
             print("Old:", old_status)
             print("New:", status)
 
-            if old_status == "closed" and status == "available":
+           if old_status == "closed" and status == "available":
                 send_discord_alert(
-                    f"<@{DISCORD_USER_ID}> 🚨 **AmiAmi preorder reopened!**\n{url}"
+                    f"<@{DISCORD_USER_ID}> 🚨 **AMIAMI PREORDER OPEN!**\n\n{url}"
                 )
 
             last_status[url] = status
