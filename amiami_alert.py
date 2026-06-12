@@ -77,7 +77,7 @@ with sync_playwright() as p:
             print("Old:", old_status)
             print("New:", status)
 
-           if old_status == "closed" and status == "available":
+            if old_status == "closed" and status == "available":
                 send_discord_alert(
                     f"<@{DISCORD_USER_ID}> 🚨 **AMIAMI PREORDER OPEN!**\n\n{url}"
                 )
