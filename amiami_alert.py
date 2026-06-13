@@ -18,8 +18,17 @@ STATUS_FILE = "status.json"
 
 
 def send_discord_alert(message):
-    requests.post(DISCORD_WEBHOOK_URL, json={"content": message})
+    if not DISCORD_WEBHOOK_URL:
+        print("Discord webhook is missing!")
+        return
 
+    response = requests.post(
+        DISCORD_WEBHOOK_URL,
+        json={"content": message}
+    )
+
+    print("Discord status:", response.status_code)
+    print("Discord response:", response.text)
 
 def load_statuses():
     if os.path.exists(STATUS_FILE):
