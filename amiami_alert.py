@@ -43,10 +43,14 @@ def save_statuses(statuses):
 
 
 def check_page(page, url):
-    page.goto(url, wait_until="domcontentloaded", timeout=60000)
-    page.wait_for_timeout(5000)
+    page.goto(url, wait_until="networkidle", timeout=60000)
+    page.wait_for_timeout(10000)
 
     text = page.inner_text("body")
+
+    print("=" * 80)
+    print(text[:5000])
+    print("=" * 80)
 
     CLOSED = [
         "Pre-orders Closed",
